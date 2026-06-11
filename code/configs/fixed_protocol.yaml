@@ -1,0 +1,80 @@
+# ============================================================================
+# SR Backbone Swap Protocol — Fixed Elements
+# ============================================================================
+# 이 파일의 값은 모든 SR 백본 실험에서 동일해야 한다.
+# eval_arch.py가 이 파일을 읽어서 고정 요소를 강제한다.
+# CLI로 override 불가 — 변경 시 이 파일 자체를 수정하고 커밋.
+#
+# 근거: Notion '[표준 프로토콜] SR 백본 교체 실험' (2026-05-18)
+# 교훈: DRCT Arch4 사태 — Scout 불일치(-8pp), dataset 불일치(+6.61pp)
+# ============================================================================
+
+# --- Scout YOLO (Arch4 전용) ---
+# Scout는 LR 이미지를 직접 받으므로 SR 백본과 무관.
+# 모든 SR 백본 실험에서 동일 Scout를 사용해야 공정 비교 가능.
+# 주의: IAC 0.7986은 yolo_lr_improved(stage2)로 측정됨. 이것이 표준.
+scout:
+  weight: "/home/changmin/dark_vessel_sr_yolo/weights/yolo_lr_improved/8s_aug_deadline_try_stage2/weights/best.pt"
+  md5_prefix: "f9f175f7f758"
+  description: "YOLOv8s stage2, LR improved, IAC 0.7986 기준"
+
+# --- 평가 데이터셋 ---
+# labeled_only: label 파일이 있는 이미지만 사용 (6,418장).
+# 28,884장 전체를 쓰면 negative image 비율 차이로 mAP 왜곡.
+dataset:
+  lr_images: "/home/changmin/smart_airbus_data_lr/images/val"
+  hr_images: "/home/changmin/smart_airbus_data/images/val"
+  hr_labels: "/home/changmin/smart_airbus_data/labels/val"
+  lr_labels: "/home/changmin/smart_airbus_data_lr/labels/val"
+  filter: "labeled_only"
+  expected_count: 6418
+
+# --- Threshold (Arch4 Confidence-Adaptive) ---
+# IAC 0.7986을 낸 실제 값. 모든 SR 백본의 main result에 이 값을 사용.
+# SR별 최적 threshold는 별도 ablation으로만.
+threshold:
+  pass1_conf: 0.0075    # Scout 최소 confidence (IAC 실측)
+  high_conf: 0.45       # 즉시 확정 threshold (pass2_conf)
+  final_conf: 0.3       # 최종 필터링 (IAC 실측 — 0.001 아님!)
+  sniper_conf: 0.001    # Sniper detection threshold
+
+# --- Merge 정책 (Arch4) ---
+merge:
+  merge_iou: 0.5
+  roi_expansion: 1.75   # IAC 실측
+  crop_size_lr: 64
+  batch_size_sr: 32
+
+# --- Arch4 ROI-aware NMS 추가 파라미터 (6개) ---
+# IAC 0.7986은 Arch4RoiAwareNMS로 측정됨. 이 값들이 표준.
+arch4_nms:
+  scout_nms_iou: 0.5
+  roi_merge_iou: 0.3
+  roi_center_ratio: 0.35
+  sniper_nms_iou: 0.45
+  final_nms_iou: 0.5
+  drop_uncertain_if_sniper_hits: true
+  sniper_score_bonus: 0.0
+  merge_policy: "size_cond"
+  final_fusion_method: "soft_nms"
+  soft_nms_sigma: 0.3
+
+# --- 평가 공통 설정 ---
+evaluation:
+  conf_threshold: 0.25   # Arch0/2/5 공통 confidence
+  iou_threshold: 0.5     # NMS IoU
+  eval_space: "hr"       # 좌표 공간
+  device: "cuda"
+
+# --- 측정 설정 (latency) ---
+measurement:
+  warmup: 30
+  n_iter: 200
+  sync: true  # torch.cuda.synchronize()
+
+# --- 변경 요소 (이 파일에는 없음, 참조만) ---
+# 아래만 SR 백본에 따라 바뀜:
+#   1. SR weight (--sr-weight)
+#   2. Sniper weight (--sniper-weight, Arch4 전용, from-scratch)
+#   3. Gate weight (Arch2 전용, SR별 재학습)
+# 나머지는 전부 이 파일의 고정값.

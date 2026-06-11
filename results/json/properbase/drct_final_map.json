@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "time": "2026-06-10 06:43:27",
+    "arch": "arch4_adaptive",
+    "arch4_config": "iac_runs/20260609_070148_drct_properbase_pipeline/final_map.yaml",
+    "arch4_py": "",
+    "hr_data_yaml": "iac_runs/20260316_arch024_fullval_rfdnyolo_db/subset6418_hr_data.yaml",
+    "lr_data_yaml": "iac_runs/20260316_arch024_fullval_rfdnyolo_db/subset6418_lr_data.yaml",
+    "eval_space": "hr",
+    "upscale_factor": 4,
+    "device": "cuda",
+    "batch": 1,
+    "num_images": 6418,
+    "avg_ms_per_image": 81.05033196291545,
+    "tta_hflip": false
+  },
+  "runs": [
+    {
+      "tag": "ARCH4",
+      "results_dict": {
+        "metrics/precision(B)": 0.7978935241699219,
+        "metrics/recall(B)": 0.7320037484169006,
+        "metrics/mAP50(B)": 0.797330379486084,
+        "metrics/mAP50-95(B)": 0.6124904751777649,
+        "direct/tp50": 4889,
+        "direct/fp50": 1552,
+        "direct/fn50": 1529,
+        "direct/precision50": 0.7590436267660301,
+        "direct/recall50": 0.7617637893424742
+      }
+    }
+  ]
+}

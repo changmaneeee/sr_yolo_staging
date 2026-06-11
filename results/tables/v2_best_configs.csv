@@ -1,0 +1,5 @@
+SR,pass1_conf,roi_expansion,soft_nms_sigma,mAP50,Sniper
+RFDN,0.0125,1.75,0.3,0.7981,yolo_sniper_hardneg/20260325_023318_hardneg_newscout
+DRCT,0.0175,2.0,0.3,0.7990,yolo_sniper_hardneg/20260609_070148_hardneg_drct_pb
+HAT,0.0175,1.5,0.3,0.8003,yolo_sniper_hardneg/20260609_*_hardneg_hat_pb
+MAN,0.01,1.75,0.3,0.7940,yolo_sniper_hardneg/20260609_*_hardneg_man_pb

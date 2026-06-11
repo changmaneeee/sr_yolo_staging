@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "time": "2026-06-10 20:44:29",
+    "arch": "arch4_adaptive",
+    "arch4_config": "/home/changmin/dark_vessel_sr_yolo/iac_runs/nms_sweep_2stage/drct/stage2/p10.005_roi1.5_s0.3.yaml",
+    "arch4_py": "",
+    "hr_data_yaml": "/home/changmin/dark_vessel_sr_yolo/iac_runs/20260316_arch024_fullval_rfdnyolo_db/subset6418_hr_data.yaml",
+    "lr_data_yaml": "/home/changmin/dark_vessel_sr_yolo/iac_runs/20260316_arch024_fullval_rfdnyolo_db/subset6418_lr_data.yaml",
+    "eval_space": "hr",
+    "upscale_factor": 4,
+    "device": "cuda",
+    "batch": 1,
+    "num_images": 6418,
+    "avg_ms_per_image": 95.24875517637936,
+    "tta_hflip": false
+  },
+  "runs": [
+    {
+      "tag": "ARCH4",
+      "results_dict": {
+        "metrics/precision(B)": 0.779091477394104,
+        "metrics/recall(B)": 0.736833930015564,
+        "metrics/mAP50(B)": 0.793131411075592,
+        "metrics/mAP50-95(B)": 0.6062548160552979,
+        "direct/tp50": 4958,
+        "direct/fp50": 1811,
+        "direct/fn50": 1460,
+        "direct/precision50": 0.7324567882996011,
+        "direct/recall50": 0.7725148021190402
+      }
+    }
+  ]
+}

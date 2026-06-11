@@ -1,0 +1,44 @@
+# Weights (large binaries — kept in parent repo, see docs/09_reproducibility/03_weight_locations.md)
+*.pt
+*.pth
+*.onnx
+*.engine
+*.trt
+*.bin
+
+# Datasets (kept on local FS, see docs/01_dataset/)
+*.jpg
+*.jpeg
+*.png
+*.tif
+*.tiff
+
+# Large results
+*.tar.gz
+*.zip
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+*.out
+.tmux/
+
+# Allow specific small artifacts
+!results/json/**/*.json
+!results/tables/**/*.csv
+!results/figures_data/**/*.csv
+!environment/*.yml
+!environment/*.txt

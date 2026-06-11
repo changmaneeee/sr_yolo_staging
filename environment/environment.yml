@@ -1,0 +1,17 @@
+name: dark_vessel_mamba
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pytorch
+  - torchvision
+  - cuda-toolkit=12.8
+  - pip
+  - pip:
+    - ultralytics
+    - opencv-python
+    - timm
+    - PyYAML
+    - numpy

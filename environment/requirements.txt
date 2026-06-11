@@ -1,0 +1,8 @@
+torch==2.9.1+cu128
+torchvision
+ultralytics
+opencv-python
+Pillow
+numpy
+PyYAML
+timm
