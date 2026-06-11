@@ -1,0 +1,51 @@
+# =============================================================================
+# Arch5B Phase 2 MAN — Fusion Warm-up Config
+# 기반: arch5b_phase3_man.yaml (복사 후 Phase 2용 수정)
+# 변경: YOLO weight → MAN-trained YOLO (detector matching rule)
+# =============================================================================
+
+data:
+  hr_root: "/home/jovyan/changmin/dark_vessel_research/smart_airbus_data"
+  hr_val_images: "images/val"
+  hr_val_labels: "labels/val"
+  lr_root: "/home/jovyan/changmin/dark_vessel_research/smart_airbus_data_lr"
+  lr_val_images: "images/val"
+  lr_val_labels: "labels/val"
+  upscale_factor: 4
+
+model:
+  pipeline: arch5b_fusion
+  sr_type: man
+  detector_input: "sr"
+
+  sr:
+    type: man
+    weights: "/home/jovyan/changmin/dark_vessel_research/handoff_cheetah_20260525/code/weights/sr_finetuned/man/best.pt"
+    man:
+      variant: base
+      pretrain_path: "/home/jovyan/changmin/dark_vessel_research/handoff_cheetah_20260525/code/weights/sr_finetuned/man/best.pt"
+
+  yolo:
+    weights_path: "/home/jovyan/changmin/dark_vessel_research/handoff_cheetah_20260525/code/weights/yolo_8s_man/weights/best.pt"
+    num_classes: 1
+    imgsz: 640
+
+  fusion:
+    use_cross_attention: true
+    use_cbam: true
+    num_heads: 4
+    init_mode: "identity"
+
+training:
+  sr_weight: 0.3
+  det_weight: 1.0
+  phase: 2
+  freeze: "sr,yolo"  # Fusion only
+
+evaluation:
+  conf_threshold: 0.25
+  iou_threshold: 0.50
+  max_det: 300
+
+logging:
+  save_dir: "iac_lab/runs/arch5b_phase2_man"
